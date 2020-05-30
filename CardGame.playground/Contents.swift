@@ -2,9 +2,9 @@ import Foundation
 
 //: ## Step 1
 //: Create an enumeration for the value of a playing card. The values are: `ace`, `two`, `three`, `four`, `five`, `six`, `seven`, `eight`, `nine`, `ten`, `jack`, `queen`, and `king`. Set the raw type of the enum to `Int` and assign the ace a value of `1`.
-print("anything")
+//print("anything")
 
-enum PlayingCard: Int {
+enum CardValue: Int {
     case ace = 1
     case two = 2
     case three = 3
@@ -20,7 +20,7 @@ enum PlayingCard: Int {
     case king = 13
 }
 
-//let myCard = PlayingCard.eight
+//let myCard = CardValue.eight
 //print(myCard)
 //print(myCard.rawValue)
 // prints ACE and 1
@@ -28,7 +28,7 @@ enum PlayingCard: Int {
 
 //: ## Step 2
 //: Once you've defined the enum as described above, take a look at this built-in protocol, [CustomStringConvertible](https://developer.apple.com/documentation/swift/customstringconvertible) and make the enum conform to that protocol. Make the face cards return a string of their name, and for the numbered cards, simply have it return that number as a string.
-extension PlayingCard: CustomStringConvertible {
+extension CardValue: CustomStringConvertible {
     var description: String {
         switch self {
         case .ace:
@@ -61,27 +61,35 @@ extension PlayingCard: CustomStringConvertible {
     }
 }
 
-//let myCard2 = PlayingCard.nine
+//let myCard2 = CardValue.nine
 //print(myCard2)
 
 
 
 //: ## Step 3
 //: Create an enum for the suit of a playing card. The values are `hearts`, `diamonds`, `spades`, and `clubs`. Use a raw type of `String` for this enum (this will allow us to get a string version of the enum cases for free, no use of `CustomStringConvertible` required).
-
-
-
+enum CardSuit: String {
+    case hearts, diamonds, spades, clubs
+}
 
 //: ## Step 4
 //: Using the two enums above, create a `struct` called `Card` to model a single playing card. It should have constant properties for each constituent piece (one for suit and one for rank).
-
-
+struct Card {
+    let value: CardValue
+    let suit: CardSuit
+}
 
 
 //: ## Step 5
 //: Make the card also conform to `CustomStringConvertible`. When turned into a string, a card's value should look something like this, "ace of spades", or "3 of diamonds".
+extension Card: CustomStringConvertible {
+    var description: String {
+        return("\(value) of \(suit)")
+    }
+}
 
-
+let myCard3 = Card(value: CardValue.seven, suit: CardSuit.spades)
+print(myCard3)
 
 //: ## Step 6
 //: Create a `struct` to model a deck of cards. It should be called `Deck` and have an array of `Card` objects as a constant property. A custom `init` function should be created that initializes the array with a card of each rank and suit. You'll want to iterate over all ranks, and then over all suits (this is an example of _nested `for` loops_). See the next 2 steps before you continue with the nested loops.
